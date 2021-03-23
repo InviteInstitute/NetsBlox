@@ -561,6 +561,24 @@ module.exports = [
         }
     },
     {
+        Service: 'getProjectId',
+        Parameters: 'owner,projectName',
+        Method: 'post',
+        Note: '',
+        middleware: ['isLoggedIn', 'noCache'],
+        Handler: function(req, res) {
+            const {owner, projectName} = req.body;
+            const {user, username} = req.session;
+            logger.trace(`${username} opening project ${owner}/${projectName}`);
+
+            return Projects.getProjectId(owner, projectName)
+            .then(ID => {
+                logger.trace("--ID: "+ID)
+                res.send(ID);
+            })
+        }
+    },
+    {
         Service: 'getEntireProject',
         Parameters: 'projectId',
         Method: 'post',
