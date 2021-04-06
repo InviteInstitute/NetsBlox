@@ -24,9 +24,16 @@ Storage.getDatabaseFromURI = function(mongoURI) {
 };
 
 Storage.prototype.connect = function(mongoURI) {
-    mongoURI = mongoURI || process.env.MONGO_URI || process.env.MONGOLAB_URI || 'mongodb://localhost:27017';
-    const dbName = Storage.getDatabaseFromURI(mongoURI);
-    return Q(MongoClient.connect(mongoURI))
+    // mongoURI = mongoURI || process.env.MONGO_URI || process.env.MONGOLAB_URI || 'mongodb://localhost:27017';
+    const MONGO_USER = process.env.MONGODB_USER;
+    const MONGO_PASS = process.env.MONGODB_PASS;
+    const MONGO_HOST = process.env.MONGODB_HOST;
+    const MONGO_PORT = process.env.MONGODB_PORT;
+    const MONGO_DBMS = process.env.MONGODB_DBMS;
+    const dbName = MONGO_DBMS;
+    mongoURI = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBMS}?authSource=admin`;
+    // const dbName = Storage.getDatabaseFromURI(mongoURI);
+    return Q(MongoClient.connect(mongoURI, process.env.MONGODB_USER, process.env.MONGODB_USER))
         .then(client => {
             const db = client.db(dbName);
             this.connected = true;
