@@ -25,24 +25,11 @@ program.parse(process.argv);
 const username = program.args[0];
 const tokenID = program.args[1];
 
-
-// function callThis(Text){
-//     var fs = require('fs');
-//     fs.writeFile('/Users/mehmetcelepkolu/Desktop/a3.txt', (new Date())+"\r\n", function (err) {
-//     fs.appendFile('/Users/mehmetcelepkolu/Desktop/a3.txt', username+"\r\n");
-//     fs.appendFile('/Users/mehmetcelepkolu/Desktop/a3.txt', tokenID+"\r\n");
-//     fs.appendFile('/Users/mehmetcelepkolu/Desktop/a3.txt', Text+"\r\n");
-
-//     });
-// }
-// // callThis("some Test")
-
 storage.connect()
     .then(() => Users.get(username))
     .then(user => {
         return user.recordTokenID(tokenID);
     })
-    .then(() => callThis("Test file"))
     .then(() => storage.disconnect())
     .catch(err => {
         console.error(err);
