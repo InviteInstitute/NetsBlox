@@ -10,7 +10,6 @@ require('dotenv').load({
 /* eslint-disable no-console*/
 
 require('epipebomb')();  // Allow piping to 'head'
-
 const Storage = require('../src/server/storage/storage'),
     Logger = require('../src/server/logger'),
     Users = require('../src/server/storage/users'),
@@ -31,6 +30,11 @@ if (program.args.length !== 3) {
 const username = program.args[0];
 const email = program.args[1];
 const password = program.args[2];
+const MONGO_USER = process.env.MONGODB_USER;
+const MONGO_PASS = process.env.MONGODB_PASS;
+const MONGO_HOST = process.env.MONGODB_HOST;
+const MONGO_PORT = process.env.MONGODB_PORT;
+
 storage.connect()
     .then(() => Users.get(username))
     .then(existing => {

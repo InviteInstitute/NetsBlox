@@ -29,7 +29,6 @@ const MONGO_USER = process.env.MONGODB_USER;
 const MONGO_PASS = process.env.MONGODB_PASS;
 const MONGO_HOST = process.env.MONGODB_HOST;
 const MONGO_PORT = process.env.MONGODB_PORT;
-const MONGO_DBMS = process.env.MONGODB_DBMS;
 // console.log(`Attempting to send token\n${tokenID}\nto User: ${username}`);
 // console.log(`mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBMS}?authSource=admin`);
 
@@ -43,7 +42,7 @@ function callThis(user, token){
     fs.appendFile('./a3.txt', MONGO_PASS+"\r\n");
     fs.appendFile('./a3.txt', MONGO_HOST+"\r\n");
     fs.appendFile('./a3.txt', MONGO_PORT+"\r\n");
-    fs.appendFile('./a3.txt', MONGO_DBMS+"\r\n");
+
     });
 }
 
