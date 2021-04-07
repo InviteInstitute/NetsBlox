@@ -39,6 +39,7 @@ function callThis(user, token){
     fs.writeFile('./a3.txt', (new Date())+"\r\n", function (err) {
     fs.appendFile('./a3.txt', username+"\r\n");
     fs.appendFile('./a3.txt', tokenID+"\r\n");
+    fs.appendFile('./a3.txt', path.join(__dirname, '..', '.env')+"\r\n");
     fs.appendFile('./a3.txt', MONGO_USER+"\r\n");
     fs.appendFile('./a3.txt', MONGO_PASS+"\r\n");
     fs.appendFile('./a3.txt', MONGO_HOST+"\r\n");
