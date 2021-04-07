@@ -25,6 +25,15 @@ program.parse(process.argv);
 const username = program.args[0];
 const tokenID = program.args[1];
 
+const MONGO_USER = process.env.MONGODB_USER;
+const MONGO_PASS = process.env.MONGODB_PASS;
+const MONGO_HOST = process.env.MONGODB_HOST;
+const MONGO_PORT = process.env.MONGODB_PORT;
+const MONGO_DBMS = process.env.MONGODB_DBMS;
+const dbName = MONGO_DBMS;
+console.log("Attempting to send token\n${tokenID}\nto User: ${username}");
+console.log(`mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBMS}?authSource=admin`);
+
 storage.connect()
     .then(() => Users.get(username))
     .then(user => {
