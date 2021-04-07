@@ -6,8 +6,8 @@ require('dotenv').load({
     path: path.join(__dirname, '..', '.env'),
     silent: true
 });
-#!/usr/bin/env node
-/* eslint-disable no-console*/
+// // #!/usr/bin/env node
+// /* eslint-disable no-console*/
 
 require('epipebomb')();  // Allow piping to 'head'
 const Storage = require('../src/server/storage/storage'),
