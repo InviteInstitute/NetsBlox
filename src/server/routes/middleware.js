@@ -92,17 +92,17 @@ async function login(req, res) {
 
     fullCookie= await req.cookies['myCookie'];
 
-    // console.log("------fullCookie: "+fullCookie)
+    console.log("------fullCookie: "+fullCookie)
 
     var x = fullCookie.indexOf('tokenID')
     var flecksTokenID = fullCookie.substring(x+10, x+60)
-    // console.log("-----tokenID extracted: "+flecksTokenID)
+    console.log("-----tokenID extracted: "+flecksTokenID)
 
 
     let retrieveUserInfo1 =  await server.storage.users.getUserInfo(flecksTokenID)
-    // console.log("This is the information based on the tokenID")
-    // console.log(retrieveUserInfo1[0].username)
-    // console.log(retrieveUserInfo1[0].hash)
+    console.log("This is the information based on the tokenID")
+    console.log(retrieveUserInfo1[0].username)
+    console.log(retrieveUserInfo1[0].hash)
 
     let username = retrieveUserInfo1[0].username
     const hash = retrieveUserInfo1[0].hash
