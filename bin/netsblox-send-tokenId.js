@@ -1,4 +1,11 @@
+'use strict';
+var path = require('path');
+// eslint-disable-next-line no-unused-vars
 
+require('dotenv').load({
+    path: path.join(__dirname, '..', '.env'),
+    silent: true
+});
 // // #!/usr/bin/env node
 // /* eslint-disable no-console*/
 
