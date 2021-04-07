@@ -29,7 +29,7 @@ Storage.prototype.connect = function(mongoURI) {
     const MONGO_PASS = process.env.MONGODB_PASS;
     const MONGO_HOST = process.env.MONGODB_HOST;
     const MONGO_PORT = process.env.MONGODB_PORT;
-    const MONGO_DBMS = process.env.MONGODB_DBMS;
+    const MONGO_DBMS = 'admin';
     const dbName = MONGO_DBMS;
     mongoURI = `mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBMS}?authSource=admin`;
     // const dbName = Storage.getDatabaseFromURI(mongoURI);
