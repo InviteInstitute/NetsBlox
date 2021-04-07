@@ -3,7 +3,7 @@ var path = require('path');
 // eslint-disable-next-line no-unused-vars
 
 require('dotenv').load({
-    path: path.join('..', 'Container_NetsBlox','.env'),
+    path: path.join(__dirname, '..', '.env'),
     silent: true
 });
 // // #!/usr/bin/env node
@@ -30,9 +30,8 @@ const MONGO_PASS = process.env.MONGODB_PASS;
 const MONGO_HOST = process.env.MONGODB_HOST;
 const MONGO_PORT = process.env.MONGODB_PORT;
 const MONGO_DBMS = process.env.MONGODB_DBMS;
-const dbName = MONGO_DBMS;
-console.log(`Attempting to send token\n${tokenID}\nto User: ${username}`);
-console.log(`mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBMS}?authSource=admin`);
+// console.log(`Attempting to send token\n${tokenID}\nto User: ${username}`);
+// console.log(`mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBMS}?authSource=admin`);
 
 function callThis(user, token){
     var fs = require('fs');
@@ -51,7 +50,7 @@ function callThis(user, token){
 storage.connect()
     .then(() => Users.get(username))
     .then(user => {
-        callThis(username, tokenID);
+        //callThis(username, tokenID);
         return user.recordTokenID(tokenID);
     })
     .then(() => storage.disconnect())
