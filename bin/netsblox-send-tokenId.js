@@ -3,7 +3,7 @@ var path = require('path');
 // eslint-disable-next-line no-unused-vars
 
 require('dotenv').load({
-    path: path.join(__dirname, '..', '.env'),
+    path: path.join('..', 'Container_NetsBlox','.env'),
     silent: true
 });
 // // #!/usr/bin/env node
