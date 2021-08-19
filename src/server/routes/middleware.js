@@ -73,9 +73,7 @@ async function login(req, res) {
     // let username = req.body.__u;
     // const hash = req.body.__h;
     
-
     // console.log("making l2 request")
-    
     // const flecksTokenID = await fetch('http://localhost:8888/l2', {
     //     method: 'POST',
     //     body: JSON.stringify({ username: username}),
@@ -83,31 +81,29 @@ async function login(req, res) {
     // .then(res => res.text())
 
     // console.log("----flecksTokenID: "+flecksTokenID)
-
-
     // const flecksTokenID1 = await fetch('http://localhost:8888/l2')
     // .then(res => res.text())
     // console.log("all: "+flecksTokenID1)
 
 
+    // Use the cookie from the flekcs website to login to netsblox. If there is no cookie, the user can enter the credentials.
     fullCookie= await req.cookies['myCookie'];
-
-    console.log("------fullCookie: "+fullCookie)
-
-    var x = fullCookie.indexOf('tokenID')
-    var flecksTokenID = fullCookie.substring(x+10, x+60)
-    console.log("-----tokenID extracted: "+flecksTokenID)
-
-
-    let retrieveUserInfo1 =  await server.storage.users.getUserInfo(flecksTokenID)
-    console.log("This is the information based on the tokenID")
-    console.log(retrieveUserInfo1[0].username)
-    console.log(retrieveUserInfo1[0].hash)
-
-    let username = retrieveUserInfo1[0].username
-    const hash = retrieveUserInfo1[0].hash
-    
-
+    console.log("---------Starts from here", fullCookie)
+    if (typeof fullCookie !== 'undefined' && fullCookie){
+        console.log("Found myCookie")
+        var x = fullCookie.indexOf('tokenID')
+        var flecksTokenID = fullCookie.substring(x+10, x+60)
+        var retrieveUserInfo1 =  await server.storage.users.getUserInfo(flecksTokenID)     
+        var username = retrieveUserInfo1[0].username
+        var hash = retrieveUserInfo1[0].hash
+        console.log("username: ",retrieveUserInfo1[0].username)
+        console.log("hash: ",retrieveUserInfo1[0].hash)
+    }
+    else {
+        var username = req.body.__u;
+        var hash = req.body.__h;
+    }
+     
     const isUsingCookie = !req.body.__u;
     const {clientId} = req.body;
     let loggedIn = false;
