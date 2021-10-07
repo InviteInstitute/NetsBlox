@@ -19,14 +19,14 @@ const Storage = require('../src/server/storage/storage'),
     Command = require('commander').Command,
     program = new Command();
 
-program.arguments('<copyProjectFrom> <projectToBeCopied> <saveTo> <newProjectName>');
-program.parse(process.argv);
+// program.arguments('<copyProjectFrom> <projectToBeCopied> <saveTo> <newProjectName>');
+// program.parse(process.argv);
 
 
-const copyProjectFrom = program.args[0]
-const projectToBeCopied = program.args[1]
-const saveTo = program.args[2]
-const newProjectName = program.args[3]
+// const copyProjectFrom = program.args[0]
+// const projectToBeCopied = program.args[1]
+// const saveTo = program.args[2]
+// const newProjectName = program.args[3]
 
 
 // const copyProjectFrom = "g01"
@@ -45,15 +45,19 @@ const MONGO_PORT = process.env.MONGODB_PORT;
 function callThis(aa){
     var fs = require('fs');
     fs.writeFile('./testFile.txt', aa, function (err) {
-    // fs.appendFile('./testFile.txt.txt', aa+"\r\n");
+    // fs.appendFile('./testFile.txt', aa+"\r\n");
     });
 }
 
-storage.connect()
-    // .then(() => callThis(projectToBeCopied))
 
+const owner = "t01"
+const projectName = "MyCoolProject3"
+const collaborator = "s07"
+
+storage.connect()
+    // .then(() => callThis(collaborator))
     .then(() =>{
-        return Projects.copyProject(copyProjectFrom, projectToBeCopied, saveTo, newProjectName)
+        return Projects.addCollaborator(owner, projectName,collaborator)
     })
     .then(() => storage.disconnect())
     .catch(err => {

@@ -719,16 +719,15 @@ const { insert } = require('ramda');
 
     function callThis2(pr){
         var fs = require('fs');
-        // fs.writeFile('./vvvvv.txt', JSON.stringify(pr),
-        fs.appendFile('./aaa.txt', JSON.stringify(pr) + "\r\n",
+        // fs.writeFile('./aaa2.txt', JSON.stringify(pr),
+        fs.appendFile('./aaa2.txt', JSON.stringify(pr) + "\r\n",
         function (err) {
-        // fs.appendFile('./a1.txt', user+"\r\n");
+        // fs.appendFile('./aaa2.txt', user+"\r\n");
         });
     }
 
 
-    // OLD code for copying/creating multiple projects at the same time
-
+    // // OLD code for copying/creating multiple projects at the same time
     // ProjectStorage.copyProject = function (saveTo, owner, collaborators) {
     //     // Get names from saved and transient projects
     //     return ProjectStorage.getAllRawUserProjects(owner)
@@ -774,8 +773,8 @@ const { insert } = require('ramda');
     //     })       
     // };
 
-
-     ProjectStorage.copyProject = function (copyProjectFrom, projectToBeCopied, saveTo, newProjectName) {
+    // Creating a project in an user's account by copying it from an existing account
+    ProjectStorage.copyProject = function (copyProjectFrom, projectToBeCopied, saveTo, newProjectName) {
         // Get names from saved and transient projects
         return ProjectStorage.getAllRawUserProjects(copyProjectFrom)
 
@@ -797,7 +796,7 @@ const { insert } = require('ramda');
                 // If the user account already have a project with the same name, don't copy.
                 if ((proj.name).includes(projectToBeCopied) && !(saveTo_ProjectList.includes(projectToBeCopied) || (saveTo_ProjectList.includes(newProjectName)))){ 
                     var data = {
-                        collaborators: null,
+                        collaborators: [],
                         owner: saveTo,
                         name: newProjectName,  
                         transient: false,
@@ -812,6 +811,50 @@ const { insert } = require('ramda');
             })
         })       
     };
+
+
+    // Adding a collaborator to an existing project
+    ProjectStorage.addCollaborator = function (owner, projectName,collaborator) {  
+        RawUserProjectsList = ProjectStorage.getAllRawUserProjects(owner)
+        
+        .then( RawUserProjectsList => {
+
+            RawUserProjectsList.forEach((proj) => {   
+                if ((proj.name).includes(projectName)){ 
+                    // callThis2(proj._id)
+                    (proj.collaborators).push(collaborator)
+                }            
+                collection.updateOne({
+                    _id: proj._id
+                }, {
+                    $set: {
+                        collaborators: proj.collaborators
+                    }
+                })
+ 
+            })
+        })       
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     ProjectStorage.getAllRawUserProjects = function (username) {
