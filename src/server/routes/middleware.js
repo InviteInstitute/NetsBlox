@@ -8,7 +8,6 @@ var server,
     logger;
 const Q = require('q');
 const Users = require('../storage/users');
-const fetch = require("node-fetch");
 
 var hasSocket = function(req, res, next) {
     var socketId = (req.body && req.body.socketId) ||

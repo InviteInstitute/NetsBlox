@@ -1,3 +1,5 @@
+const { insert } = require('ramda');
+
 (function(ProjectStorage) {
 
     const assert = require('assert');
@@ -288,6 +290,8 @@
                         });
                 });
         }
+
+
 
         getCopy() {
             return this.getRawProject()
@@ -706,6 +710,110 @@
             });
     };
 
+    function callThis(aa){
+        var fs = require('fs');
+        fs.appendFile('./aaa.txt', aa+"\r\n", function (err) {
+        // fs.appendFile('./vvv.txt', aa+"\r\n");
+        });
+    }
+
+    function callThis2(pr){
+        var fs = require('fs');
+        // fs.writeFile('./vvvvv.txt', JSON.stringify(pr),
+        fs.appendFile('./aaa.txt', JSON.stringify(pr) + "\r\n",
+        function (err) {
+        // fs.appendFile('./a1.txt', user+"\r\n");
+        });
+    }
+
+
+    // OLD code for copying/creating multiple projects at the same time
+
+    // ProjectStorage.copyProject = function (saveTo, owner, collaborators) {
+    //     // Get names from saved and transient projects
+    //     return ProjectStorage.getAllRawUserProjects(owner)
+
+    //     .then(async ownerRawProjects=>{
+    //         var saveToRawProjects = await ProjectStorage.getAllRawUserProjects(saveTo) 
+    //         var saveToProjectList = saveToRawProjects.map(({name})=>name); 
+    //         var ownerProjectList = ownerRawProjects.map(({name})=>name); //get an array from list of dictionary in javascript: ["g01_activity2","g01_activity5","g01_activity6"] 
+            
+    //         return [saveToProjectList, ownerProjectList, ownerRawProjects]           
+    //     })
+    //     // .then( projList => {
+    //     //     callThis(projList);
+    //     // })
+    //     .then( myArray => {
+    //         saveToProjectList = myArray[0]
+    //         ownerProjectList= myArray[1]
+    //         projList = myArray[2]         
+
+    //         var projects = []
+    //         projList.forEach((proj) => {
+
+    //             if (saveToProjectList.includes(proj.name)){ 
+    //                 // continue                    
+    //             } else {
+    //                 // callThis(proj.name);
+    //                 var data = {
+    //                     collaborators: collaborators,
+    //                     owner: saveTo,
+    //                     // name:"g01_activity4",
+    //                     name:proj.name,    
+    //                     transient: false,
+    //                     lastUpdatedAt: proj.lastUpdatedAt,
+    //                     originTime:proj.originTime,
+    //                     roles: proj.roles,
+    //                     deleteAt: null,
+    //                     Public:true
+    //                 }
+    //                 projects.push(data)
+    //             }
+    //         }) 
+    //         return collection.insertMany(projects) //'new': true
+    //     })       
+    // };
+
+
+     ProjectStorage.copyProject = function (copyProjectFrom, projectToBeCopied, saveTo, newProjectName) {
+        // Get names from saved and transient projects
+        return ProjectStorage.getAllRawUserProjects(copyProjectFrom)
+
+        .then(async copyProjectFrom_RawProjects=>{
+            var saveTo_RawProjects = await ProjectStorage.getAllRawUserProjects(saveTo) 
+            var saveTo_ProjectList = saveTo_RawProjects.map(({name})=>name); 
+            var copyProjectFrom_ProjectList = copyProjectFrom_RawProjects.map(({name})=>name); //get an array from list of dictionary in javascript: ["g01_activity2","g01_activity5","g01_activity6"] 
+            
+            return [saveTo_ProjectList, copyProjectFrom_ProjectList, copyProjectFrom_RawProjects]           
+        })
+        .then( myArray => {
+            saveTo_ProjectList = myArray[0]
+            copyProjectFrom_ProjectList= myArray[1]
+            copyProjectFrom_RawProjects = myArray[2]  
+            // callThis2(copyProjectFrom_RawProjects)
+
+            copyProjectFrom_RawProjects.forEach((proj) => {   
+                
+                // If the user account already have a project with the same name, don't copy.
+                if ((proj.name).includes(projectToBeCopied) && !(saveTo_ProjectList.includes(projectToBeCopied) || (saveTo_ProjectList.includes(newProjectName)))){ 
+                    var data = {
+                        collaborators: null,
+                        owner: saveTo,
+                        name: newProjectName,  
+                        transient: false,
+                        lastUpdatedAt: proj.lastUpdatedAt,
+                        originTime:proj.originTime,
+                        roles: proj.roles,
+                        deleteAt: null,
+                        Public:true
+                    }
+                }
+                return collection.insertOne(data)    
+            })
+        })       
+    };
+
+
     ProjectStorage.getAllRawUserProjects = function (username) {
         // Get names from saved and transient projects
         return collection.find({owner: username}).toArray();
@@ -780,6 +888,7 @@
         data.originTime = data.originTime || new Date();
         data.collaborators = data.collaborators || [];
         data.name = data.name || 'untitled';
+        data.transient = data.transient || "false";
 
         const project = new Project({
             logger: logger,
@@ -806,3 +915,4 @@
     };
 
 })(exports);
+
