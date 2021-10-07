@@ -19,20 +19,14 @@ const Storage = require('../src/server/storage/storage'),
     Command = require('commander').Command,
     program = new Command();
 
-// program.arguments('<copyProjectFrom> <projectToBeCopied> <saveTo> <newProjectName>');
-// program.parse(process.argv);
+program.arguments('<owner> <projectName> <collaborator>');
+program.parse(process.argv);
 
 
-// const copyProjectFrom = program.args[0]
-// const projectToBeCopied = program.args[1]
-// const saveTo = program.args[2]
-// const newProjectName = program.args[3]
+const owner = program.args[0]
+const projectName = program.args[1]
+const collaborator = program.args[2]
 
-
-// const copyProjectFrom = "g01"
-// const projectToBeCopied = "g01_activity1"
-// const saveTo = "y01"
-// const newProjectName = "coolProject1"
 
 
 const MONGO_USER = process.env.MONGODB_USER;
@@ -49,10 +43,9 @@ function callThis(aa){
     });
 }
 
-
-const owner = "t01"
-const projectName = "MyCoolProject3"
-const collaborator = "s07"
+// const owner = "t01"
+// const projectName = "MyCoolProject3"
+// const collaborator = "s07"
 
 storage.connect()
     // .then(() => callThis(collaborator))
