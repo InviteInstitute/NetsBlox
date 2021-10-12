@@ -43,13 +43,6 @@ function callThis(aa){
     });
 }
 
-function debugError(err){
-    var fs = require('fs');
-    fs.appendFile('./debugging.txt', err, function (err) {
-    // fs.appendFile('./testFile.txt', aa+"\r\n");
-    });
-}
-
 // const owner = "t01"
 // const projectName = "MyCoolProject3"
 // const collaborator = "s07"
@@ -59,16 +52,14 @@ storage.connect()
     .then(() =>{
         return Projects.addCollaborator(owner, projectName, collaborator)
     })
-    .then(result => {
+    .then(() => {
         let line = "Adding " + collaborator + " to " + owner + "'s " + projectName;
         logger.trace(line);
-        logger.trace(result);
         storage.disconnect()
     })
     .catch(err => {
         let line = "=== Error Adding " + collaborator + " to " + owner + "'s " + projectName;
         logger.warn(line);
-        debugError(err);
         console.error(err);
         return storage.disconnect();
     });
