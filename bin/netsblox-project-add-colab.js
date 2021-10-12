@@ -55,7 +55,7 @@ function debugError(err){
 // const collaborator = "s07"
 
 storage.connect()
-    // .then(() => callThis(collaborator))
+    .then(() => callThis(collaborator))
     .then(() =>{
         return Projects.addCollaborator(owner, projectName,collaborator)
     })
