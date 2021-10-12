@@ -43,6 +43,13 @@ function callThis(aa){
     });
 }
 
+function debugError(err){
+    var fs = require('fs');
+    fs.appendFile('./debugging.txt', err, function (err) {
+    // fs.appendFile('./testFile.txt', aa+"\r\n");
+    });
+}
+
 // const owner = "t01"
 // const projectName = "MyCoolProject3"
 // const collaborator = "s07"
@@ -60,6 +67,7 @@ storage.connect()
     .catch(err => {
         let line = "=== Error Adding " + collaborator + " to " + owner + "'s " + projectName;
         console.log(line);
+        debugError(err);
         console.error(err);
         return storage.disconnect();
     });
