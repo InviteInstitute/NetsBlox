@@ -55,8 +55,14 @@ storage.connect()
     .then(() =>{
         return Projects.copyProject(copyProjectFrom, projectToBeCopied, saveTo, newProjectName)
     })
-    .then(() => storage.disconnect())
+    .then(() => {
+        let line = "Duplicating " + projectToBeCopied + " to " + saveTo;
+        console.log(line);
+        storage.disconnect()
+    })
     .catch(err => {
+        let line = "=== Error Duplicating " + projectToBeCopied + " to " + saveTo;
+        console.log(line);
         console.error(err);
         return storage.disconnect();
     });

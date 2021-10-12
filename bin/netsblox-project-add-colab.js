@@ -52,8 +52,14 @@ storage.connect()
     .then(() =>{
         return Projects.addCollaborator(owner, projectName,collaborator)
     })
-    .then(() => storage.disconnect())
+    .then(() => {
+        let line = "Adding " + collaborator + " to " + owner + "'s " + projectName;
+        console.log(line);
+        storage.disconnect()
+    })
     .catch(err => {
+        let line = "=== Error Adding " + collaborator + " to " + owner + "'s " + projectName;
+        console.log(line);
         console.error(err);
         return storage.disconnect();
     });
