@@ -30,4 +30,6 @@ program
     .command('groups', 'manage user groups')
     .command('users', 'list the usernames')
     .command('user [sessionId]', 'display user information')
+    .command('project-copy <owner> <project> <recipient> <new_project>', 'copy project from owner to recipient')
+    .command('project-add-colab <owner> <project> <user>', 'Adds user as a collaborator to project')
     .parse(process.argv);
