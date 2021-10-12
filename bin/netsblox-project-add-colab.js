@@ -33,8 +33,8 @@ const MONGO_USER = process.env.MONGODB_USER;
 const MONGO_PASS = process.env.MONGODB_PASS;
 const MONGO_HOST = process.env.MONGODB_HOST;
 const MONGO_PORT = process.env.MONGODB_PORT;
-// console.log(`Attempting to send token\n${tokenID}\nto User: ${username}`);
-// console.log(`mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBMS}?authSource=admin`);
+// logger.trace(`Attempting to send token\n${tokenID}\nto User: ${username}`);
+// logger.trace(`mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DBMS}?authSource=admin`);
 
 function callThis(aa){
     var fs = require('fs');
@@ -59,14 +59,15 @@ storage.connect()
     .then(() =>{
         return Projects.addCollaborator(owner, projectName, collaborator)
     })
-    .then(() => {
+    .then(result => {
         let line = "Adding " + collaborator + " to " + owner + "'s " + projectName;
-        console.log(line);
+        logger.trace(line);
+        logger.trace(result);
         storage.disconnect()
     })
     .catch(err => {
         let line = "=== Error Adding " + collaborator + " to " + owner + "'s " + projectName;
-        console.log(line);
+        logger.warn(line);
         debugError(err);
         console.error(err);
         return storage.disconnect();
