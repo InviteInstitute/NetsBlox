@@ -43,9 +43,9 @@ function callThis(aa){
     });
 }
 
-const owner = "test01"
-const projectName = "p01_activity2"
-const collaborator = "test01s1"
+// const owner = "test01"
+// const projectName = "p01_activity2"
+// const collaborator = "test01s1"
 
 storage.connect()
     // .then(() => callThis(collaborator))
