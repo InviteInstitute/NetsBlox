@@ -812,16 +812,14 @@ const { insert } = require('ramda');
         })       
     };
 
-
     // Adding a collaborator to an existing project
-    ProjectStorage.addCollaborator = function (owner, projectName,collaborator) {  
-        RawUserProjectsList = ProjectStorage.getAllRawUserProjects(owner)
+    ProjectStorage.addCollaborator = function (owner, projectName, collaborator) {  
+        return ProjectStorage.getAllRawUserProjects(owner)    
         
         .then( RawUserProjectsList => {
 
             RawUserProjectsList.forEach((proj) => {   
-                if ((proj.name).includes(projectName)){ 
-                    // callThis2(proj._id)
+                if ((proj.name).includes(projectName) && (!(proj.collaborators).includes(collaborator))){                 
                     (proj.collaborators).push(collaborator)
                 }            
                 collection.updateOne({
@@ -831,32 +829,12 @@ const { insert } = require('ramda');
                         collaborators: proj.collaborators
                     }
                 })
- 
             })
         })       
     };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     ProjectStorage.getAllRawUserProjects = function (username) {
         // Get names from saved and transient projects
         return collection.find({owner: username}).toArray();
