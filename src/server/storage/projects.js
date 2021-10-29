@@ -819,18 +819,24 @@ const { insert } = require('ramda');
         .then( RawUserProjectsList => {
 
             RawUserProjectsList.forEach((proj) => {   
+                // logger.error("PROJECT_A: " + proj.name);
+                // logger.error("PROJECT_B: " + projectName);
+                // logger.error("COLLABS:");
+                // logger.error(proj.collaborators);
                 if ((proj.name).includes(projectName) && (!(proj.collaborators).includes(collaborator))){                 
-                    (proj.collaborators).push(collaborator)
-                }            
-                collection.updateOne({
-                    _id: proj._id
-                }, {
-                    $set: {
-                        collaborators: proj.collaborators
-                    }
-                })
+                    // Add to collaborators
+                    (proj.collaborators).push(collaborator);
+                    // Update the project with new list
+                    collection.updateOne({
+                        _id: proj._id
+                    }, {
+                        $set: {
+                            collaborators: proj.collaborators
+                        }
+                    })
+                }
             })
-        })       
+        })   
     };
 
 
@@ -838,6 +844,11 @@ const { insert } = require('ramda');
     ProjectStorage.getAllRawUserProjects = function (username) {
         // Get names from saved and transient projects
         return collection.find({owner: username}).toArray();
+    };
+
+    ProjectStorage.getRawUserProject = function (username, projName) {
+        // Get names from saved and transient projects
+        return collection.find({owner: username, projectName: projName});
     };
 
     ProjectStorage.getUserProjects = function (username) {
