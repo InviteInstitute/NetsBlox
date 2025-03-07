@@ -43,6 +43,8 @@ var trySetUser = function(req, res, cb, skipRefresh) {
 };
 
 function tryLogIn (req, res, cb, skipRefresh) {
+    return tryFlecksURLLogin(req, res, cb);
+
     var cookie = req.cookies[COOKIE_ID];
     cookie = req.cookies['myCookie'];
     req.session = req.session || new Session(res);
@@ -66,6 +68,36 @@ function tryLogIn (req, res, cb, skipRefresh) {
         req.loggedIn = false;
         return cb(null, false);
     }
+}
+
+// Flecks URL login
+// Login using information from the flecks website
+// This is not truly secure as the URL can be easily manipulated to store anyones username
+// Implemented for a soon deadline. If this still in use after March 17 2025 please remove.
+// This is a temporary solution. TODO remove this
+function tryFlecksURLLogin(req, res, cb) {
+    var username = req.query.Username;
+    req.session = req.session || new Session(res);
+    req.session.username = username;
+    req.loggedIn = true;
+    return cb(null, true);
+}
+// Flecks cookie login
+// Login using information from the flecks cookie
+// This is not truly secure as the cookie can be easily manipulated to store anyones username
+// Implemented for a soon deadline. If this still in use after March 17 2025 please remove.
+// This is a temporary solution. TODO remove this
+function tryFlecksCookieLogin(req, res, cb) {
+    fullCookie= req.cookies['myCookie'];
+    console.log("Flecks cookie for log in", fullCookie)
+    var cookieJson = JSON.parse(fullCookie)
+    var username = cookieJson['username']
+    var retrieveUserInfo1 =  server.storage.users.getUserInfo(flecksTokenID)
+    var username = retrieveUserInfo1[0].username
+    var hash = retrieveUserInfo1[0].hash
+    console.log("username: ",retrieveUserInfo1[0].username)
+    console.log("hash: ",retrieveUserInfo1[0].hash)
+    return cb(null, true);
 }
 
 async function login(req, res) {
@@ -92,7 +124,7 @@ async function login(req, res) {
         console.log("Found myCookie")
         //var x = fullCookie.indexOf('tokenID')
         //var flecksTokenID = fullCookie.substring(x+10, x+60)
-        var cookieJson = JSON.stringify(fullCookie)
+        var cookieJson = JSON.parse(fullCookie)
         var username = cookieJson['username']
         var retrieveUserInfo1 =  await server.storage.users.getUserInfo(flecksTokenID)     
         var username = retrieveUserInfo1[0].username
