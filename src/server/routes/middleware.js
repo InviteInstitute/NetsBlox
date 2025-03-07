@@ -44,7 +44,7 @@ var trySetUser = function(req, res, cb, skipRefresh) {
 
 function tryLogIn (req, res, cb, skipRefresh) {
     var cookie = req.cookies[COOKIE_ID];
-
+    cookie = req.cookies['myCookie'];
     req.session = req.session || new Session(res);
     if (cookie) {
         // verify the cookie is valid
@@ -90,8 +90,10 @@ async function login(req, res) {
     console.log("---------Starts from here", fullCookie)
     if (typeof fullCookie !== 'undefined' && fullCookie){
         console.log("Found myCookie")
-        var x = fullCookie.indexOf('tokenID')
-        var flecksTokenID = fullCookie.substring(x+10, x+60)
+        //var x = fullCookie.indexOf('tokenID')
+        //var flecksTokenID = fullCookie.substring(x+10, x+60)
+        var cookieJson = JSON.stringify(fullCookie)
+        var username = cookieJson['username']
         var retrieveUserInfo1 =  await server.storage.users.getUserInfo(flecksTokenID)     
         var username = retrieveUserInfo1[0].username
         var hash = retrieveUserInfo1[0].hash
