@@ -425,7 +425,7 @@ module.exports = [
         middleware: ['isLoggedIn', 'noCache'],
         Handler: function(req, res) {
             const origin = `${req.protocol}://${req.get('host')}`;
-            var username = req.session.username;
+            var username = req.session.username || req.params.username || req.query.username;
             logger.log(`${username} requested project list from ${origin}`);
 
             return this.storage.users.get(username)
