@@ -76,7 +76,7 @@ function tryLogIn (req, res, cb, skipRefresh) {
 // Implemented for a soon deadline. If this still in use after March 17 2025 please remove.
 // This is a temporary solution. TODO remove this
 function tryFlecksURLLogin(req, res, cb) {
-    var username = req.query.Username;
+    var username = req.query.Username || req.query.username;
     req.session = req.session || new Session(res);
     req.session.username = username;
     req.loggedIn = true;
