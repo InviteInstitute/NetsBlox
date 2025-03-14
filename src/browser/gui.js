@@ -1711,7 +1711,6 @@ IDE_Morph.prototype.interpretUrlAnchors = function (loc) {
 
 
 IDE_Morph.prototype.buildPanes = function () {
-    console.log("IDE_Morph.prototype.buildPanes appmode=",this.isAppMode);
     this.createLogo();
     this.createControlBar();
     this.createCategories();
@@ -1722,9 +1721,6 @@ IDE_Morph.prototype.buildPanes = function () {
     this.createCorralBar();
     this.createCorral();
     this.createReplayControls();
-    console.log("IDE_Morph.prototype.buildPanes appmode=",this.isAppMode);
-    this.toggleAppMode(true);
-    console.log("IDE_Morph.prototype.buildPanes appmode=",this.isAppMode);
 };
 
 IDE_Morph.prototype.createLogo = function () {
